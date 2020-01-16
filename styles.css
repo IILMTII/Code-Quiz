@@ -1,0 +1,29 @@
+#scores{
+    display: flex;
+    justify-content: flex-end;
+}
+
+#main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;  /* column align */
+}
+
+#start-btn{
+    background-color: #4B0082;
+    border-color: indigo;
+    color: white;
+    padding: .25rem 1rem;
+    cursor: pointer;
+    border-radius: 1rem;
+}
+
+#start-btn:hover{
+    background-color: #DA70D6;
+    color: black;
+}
+
+.hide{
+    display: none;
+}
