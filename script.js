@@ -16,14 +16,33 @@ function startQuiz(){
 }
 
 function setNextQuestion(){
+    resetState();
     showQuestion(shuffledQuestion[currentQuestionIndex]);
 }
 
 function showQuestion(question){
     questionElement.innerText = question.title;
-    console.log(question.title);
+    question.choices.forEach( choice =>{
+        const button = document.createElement('button');
+        button.innerText = choice;
+        button.classList.add('choice');
+        if (choice == question.answer){
+            button.dataset.correct = true;
+        }
+        button.addEventListener('click', selectAnswer);
+        answersElement.appendChild(button);
+    });
+    // console.log(question.title);
 }
 
-function selectAnswer(){
+function resetState(){
+    while(answersElement.firstChild){
+        answersElement.removeChild(answersElement.firstChild);
+    }
+}
 
+function selectAnswer(e){
+    const selectedButton= e.target;
+    const correct = selectedButton.dataset.correct;
+    
 }
