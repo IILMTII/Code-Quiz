@@ -9,5 +9,10 @@ var questions = [
       choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
       answer: "parentheses"
     },
+    {
+      title: "What are you ?",
+      choices: ["Human", "Animal", "Parasite", "God"],
+      answer: "Human"
+    },
     ///etc.
   ];
