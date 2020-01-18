@@ -5,11 +5,13 @@ const answersElement = document.getElementById('answers');
 const statusElement = document.getElementById('status');
 const lineElement =  document.getElementById('line');
 const scoreElement = document.getElementById('scores');
+const timerElement = document.getElementById('timer');
 
 let shuffledQuestion, currentQuestionIndex, flag, qNumber; 
 
 startButton.addEventListener('click', startQuiz);
 var scoreCount;
+var secondsLeft = 75;
 
 function startQuiz(){
  scoreCount=0;
@@ -19,8 +21,22 @@ function startQuiz(){
  shuffledQuestion = questions.sort(() => Math.random() - .5);
  currentQuestionIndex=0;
  answersElement.classList.remove('hide');//shows the answer choice
+ setTime();
  setNextQuestion();   
 }
+
+function setTime() {
+    var timerInterval = setInterval(function() {
+      secondsLeft--;
+      timerElement.textContent = secondsLeft;
+  
+      if(secondsLeft === 0) {
+        clearInterval(timerInterval);
+        resetFormat();
+      }
+  
+    }, 1000);
+  }
 
 function setNextQuestion(){
     resetState();
@@ -104,8 +120,10 @@ function selectAnswer(event){
 }
 
 function resetFormat(){
+    secondsLeft = 75;
     startButton.innerText = 'Restart';
     scoreElement.innerText = 'Score: 0';
+    timerElement.innerText = 'Timer: 75';
     questionElement.innerText = 'Coding Quiz Challenge';
     startButton.classList.remove('hide');
     description.classList.remove('hide');
