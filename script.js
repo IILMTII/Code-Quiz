@@ -10,8 +10,7 @@ const timerElement = document.getElementById('timer');
 let shuffledQuestion, currentQuestionIndex, flag, qNumber; 
 
 startButton.addEventListener('click', startQuiz);
-var scoreCount;
-var secondsLeft;
+var scoreCount, secondsLeft, score, timer;
 
 function startQuiz(){
  scoreCount=0;
@@ -33,7 +32,6 @@ function setTime() {
   
       if(secondsLeft === 0 || (shuffledQuestion.length < currentQuestionIndex +1)) {   // resetting the time if the time reaches 0 or the question list is completed. 
         clearInterval(timerInterval);
-        resetFormat();
       }
   
     }, 1000);
@@ -99,20 +97,24 @@ function selectAnswer(event){
         lineElement.classList.remove('hide');
         statusElement.innerText = 'Correct !';
         scoreCount+=5;
-        console.log(scoreCount);
+        //console.log(scoreCount);
     }else{
         statusElement.classList.remove('hide');
         lineElement.classList.remove('hide');
         statusElement.innerText = 'Wrong !';
         if (scoreCount==0) scoreCount=0;
         else scoreCount-=5;
-        console.log(scoreCount);
+        //console.log(scoreCount);
     }
     scoreElement.innerText = 'Score: '+scoreCount;
 
     if (shuffledQuestion.length >= currentQuestionIndex +1){
         setTimeout(setNextQuestion, 1000);
+        score = scoreCount;                                         //capture score data
+        //console.log(score);
     }else{
+        score = scoreCount;                                        //capture score data
+        //console.log(score);
         lineElement.classList.remove('hide');
         statusElement.classList.remove('hide');
         setTimeout(resetFormat, 1000);
@@ -130,5 +132,9 @@ function resetFormat(){
     description.classList.remove('hide');
     lineElement.classList.add('hide');
     statusElement.classList.add('hide');
+    timer=secondsLeft;                                                //capture timer data
+    console.log(timer);
+    console.log(score);
+    console.log(timer+score);                                         //capture high score
     resetState();
 }
