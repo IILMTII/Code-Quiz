@@ -6,7 +6,7 @@ const statusElement = document.getElementById('status');
 const lineElement =  document.getElementById('line');
 const scoreElement = document.getElementById('scores');
 
-let shuffledQuestion, currentQuestionIndex, flag; 
+let shuffledQuestion, currentQuestionIndex, flag, qNumber; 
 
 startButton.addEventListener('click', startQuiz);
 var scoreCount;
@@ -29,9 +29,11 @@ function setNextQuestion(){
 
 function showQuestion(question){
     questionElement.innerText = question.title;
+    qNumber=0;
     question.choices.forEach( choice =>{
+        qNumber++;
         const button = document.createElement('button');
-        button.innerText = choice;
+        button.innerText = qNumber+'. ' +choice;
         button.classList.add('choice');
         if (choice == question.answer){
             button.dataset.correct = true;
