@@ -46,6 +46,8 @@ function resetState(){
     while(answersElement.firstChild){
         answersElement.removeChild(answersElement.firstChild);
     }
+    lineElement.classList.add('hide');
+    statusElement.classList.add('hide');
 }
 
 function setStatusClass( element, correct){
@@ -89,14 +91,23 @@ function selectAnswer(event){
     }
     scoreElement.innerText = 'Score: '+scoreCount;
 
-    if (shuffledQuestion.length < currentQuestionIndex +1){
-        startButton.innerText = 'Restart';
-        questionElement.innerText = 'Coding Quiz Challenge';
-        startButton.classList.remove('hide');
-        description.classList.remove('hide');
-        lineElement.classList.add('hide');
-        statusElement.classList.add('hide');
+    if (shuffledQuestion.length >= currentQuestionIndex +1){
+        setTimeout(setNextQuestion, 1000);
+    }else{
+        lineElement.classList.remove('hide');
+        statusElement.classList.remove('hide');
+        setTimeout(resetFormat, 1000);
     }
+    // setNextQuestion();
+}
 
-    setNextQuestion();
+function resetFormat(){
+    startButton.innerText = 'Restart';
+    scoreElement.innerText = 'Score: 0';
+    questionElement.innerText = 'Coding Quiz Challenge';
+    startButton.classList.remove('hide');
+    description.classList.remove('hide');
+    lineElement.classList.add('hide');
+    statusElement.classList.add('hide');
+    resetState();
 }
