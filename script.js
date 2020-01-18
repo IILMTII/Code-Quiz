@@ -11,10 +11,11 @@ let shuffledQuestion, currentQuestionIndex, flag, qNumber;
 
 startButton.addEventListener('click', startQuiz);
 var scoreCount;
-var secondsLeft = 75;
+var secondsLeft;
 
 function startQuiz(){
  scoreCount=0;
+ secondsLeft=75;
 //  console.log('here');
  description.classList.add('hide'); // remove description
  startButton.classList.add('hide'); //remove start button
@@ -28,9 +29,9 @@ function startQuiz(){
 function setTime() {
     var timerInterval = setInterval(function() {
       secondsLeft--;
-      timerElement.textContent = secondsLeft;
+      timerElement.textContent = 'Timer: '+secondsLeft;
   
-      if(secondsLeft === 0) {
+      if(secondsLeft === 0 || (shuffledQuestion.length < currentQuestionIndex +1)) {   // resetting the time if the time reaches 0 or the question list is completed. 
         clearInterval(timerInterval);
         resetFormat();
       }
@@ -120,7 +121,7 @@ function selectAnswer(event){
 }
 
 function resetFormat(){
-    secondsLeft = 75;
+    // secondsLeft = 75;
     startButton.innerText = 'Restart';
     scoreElement.innerText = 'Score: 0';
     timerElement.innerText = 'Timer: 75';
