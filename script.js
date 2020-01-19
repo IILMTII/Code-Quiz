@@ -20,7 +20,7 @@ startButton.addEventListener('click', startQuiz);
 nameButton.addEventListener('click', generateHighscores);
 name.addEventListener('keyup', () => {console.log(name.value)});
 clearButton.addEventListener('click', clearHighscores);
-highScoresButton.addEventListener('click', generateHighscores);
+highScoresButton.addEventListener('click', showHighscores);
 
 var scoreCount, secondsLeft, score=0, timer, highScore;
 
@@ -37,7 +37,6 @@ function startQuiz(){
  shuffledQuestion = questions.sort(() => Math.random() - .5);
  currentQuestionIndex=0;
  answersElement.classList.remove('hide');//shows the answer choice
- //mainBody.remove(mainBody.childNodes[1]);
  setTime();
  setNextQuestion();   
 }
@@ -108,7 +107,6 @@ function selectAnswer(event){
     const selectedButton= event.target;
     const correct = selectedButton.dataset.correct;
     currentQuestionIndex++;
-     // setStatusClass()
      Array.from(answersElement.children).forEach(button =>{
         setStatusClass(button, correct);
     })
@@ -172,6 +170,29 @@ function resetFormat(){
 const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 console.log(highScores);
 
+function showHighscores(){
+    resetState();
+    console.log('WIN !');
+    questionElement.innerText = 'Top 5 Scores:';
+    description.classList.add('hide');
+    enterName[0].classList.add('hide');
+    nameButton.classList.add('hide');
+    clearButton.classList.remove('hide');
+    newScoreList.classList.remove('hide');
+    while (newScoreList.hasChildNodes()) {
+        newScoreList.removeChild(newScoreList.lastChild);
+    }
+    highScores.sort((a,b) => b.score-a.score);
+    highScores.splice(5);
+    localStorage.setItem('highScores',JSON.stringify(highScores));
+    for (var player=0; player<=highScores.length-1; player++){
+        var newH2 = document.createElement("li");
+        var h2Text = document.createTextNode(highScores[player].name+": "+highScores[player].score);
+        newH2.append(h2Text);
+        newScoreList.appendChild(newH2);
+    }
+}
+
 function generateHighscores(){
     resetState();
     console.log('WIN !');
@@ -181,7 +202,6 @@ function generateHighscores(){
     nameButton.classList.add('hide');
     clearButton.classList.remove('hide');
     newScoreList.classList.remove('hide');
-    player=0;
     while (newScoreList.hasChildNodes()) {
         newScoreList.removeChild(newScoreList.lastChild);
     }
@@ -190,7 +210,8 @@ function generateHighscores(){
         name: name.value
     };
     console.log(scores);
-    if(secondsLeft === 0 || (questions.length < currentQuestionIndex +1)) {   // resetting the time if the time reaches 0 or the question list is completed. 
+    // secondsLeft === 0
+    if( timer<75|| (questions.length < currentQuestionIndex +1)) {   // adding highscores if the time is less than 0 or the question list is completed. 
         highScores.push(scores);
       }
     console.log(highScores);
@@ -201,8 +222,6 @@ function generateHighscores(){
         var newH2 = document.createElement("li");
         var h2Text = document.createTextNode(highScores[player].name+": "+highScores[player].score);
         newH2.append(h2Text);
-        // newScoreList.innerText = highScores[player].name+": "+highScores[player].score; 
-        // mainBody.insertBefore(newH2,mainBody.childNodes[2]);
         newScoreList.appendChild(newH2);
     }
 }
