@@ -34,7 +34,7 @@ hr {
     color: black;
 }
 
-#start-btn{
+.btn{
     background-color: #4B0082;
     border-color: indigo;
     color: white;
@@ -43,12 +43,12 @@ hr {
     border-radius: 1rem;
 }
 
-#start-btn:hover{
+.btn:hover{
     background-color: #DA70D6;
     color: black;
 }
 
-#name-btn{
+/* #name-btn{
     background-color: #4B0082;
     border-color: indigo;
     color: white;
@@ -60,7 +60,7 @@ hr {
 #name-btn:hover{
     background-color: #DA70D6;
     color: black;
-}
+} */
 
 .hide{
     display: none;
