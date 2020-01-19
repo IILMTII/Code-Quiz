@@ -6,6 +6,9 @@ const statusElement = document.getElementById('status');
 const lineElement =  document.getElementById('line');
 const scoreElement = document.getElementById('scores');
 const timerElement = document.getElementById('timer');
+const mainBody = document.getElementById('main');
+const enterName = document.getElementsByClassName('form-group');
+const nameButton = document.getElementById('name-btn');
 
 let shuffledQuestion, currentQuestionIndex, flag, qNumber; 
 
@@ -126,14 +129,24 @@ function resetFormat(){
     startButton.innerText = 'Restart';
     scoreElement.innerText = 'Score: 0';
     timerElement.innerText = 'Timer: 75';
-    questionElement.innerText = 'Coding Quiz Challenge';
+    questionElement.innerText = 'All Done !';
     startButton.classList.remove('hide');
     description.classList.remove('hide');
     lineElement.classList.add('hide');
     statusElement.classList.add('hide');
+    enterName[0].classList.remove('hide');
+    nameButton.classList.remove('hide');
     timer=secondsLeft;                                                //capture timer data
+    description.innerText = 'Your score is: '+score;
+    
     console.log(timer);
     console.log(score);
     console.log(timer+score);                                         //capture high score
+    //displayHighscores();
     resetState();
 }
+
+// function displayHighscores(){
+
+
+// }
