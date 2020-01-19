@@ -11,7 +11,7 @@ const enterName = document.getElementsByClassName('form-group');
 const nameButton = document.getElementById('name-btn');
 const clearButton = document.getElementById('clear-btn');
 const name = document.getElementById('name');
-// const newScoreList = document.getElementById('scoreList');
+const newScoreList = document.getElementById('scoreList');
 const highScoresButton = document.getElementById('highscores')
 
 let shuffledQuestion, currentQuestionIndex, flag, qNumber; 
@@ -33,7 +33,7 @@ function startQuiz(){
  enterName[0].classList.add('hide');
  nameButton.classList.add('hide');
  clearButton.classList.add('hide');
-//  newScoreList.classList.add('hide');
+ newScoreList.classList.add('hide');
  shuffledQuestion = questions.sort(() => Math.random() - .5);
  currentQuestionIndex=0;
  answersElement.classList.remove('hide');//shows the answer choice
@@ -175,35 +175,43 @@ console.log(highScores);
 function generateHighscores(){
     resetState();
     console.log('WIN !');
-    questionElement.innerText = 'Highscores:';
+    questionElement.innerText = 'Top 5 Scores:';
     description.classList.add('hide');
     enterName[0].classList.add('hide');
     nameButton.classList.add('hide');
     clearButton.classList.remove('hide');
-    // newScoreList.classList.remove('hide');
+    newScoreList.classList.remove('hide');
+    player=0;
+    while (newScoreList.hasChildNodes()) {
+        newScoreList.removeChild(newScoreList.lastChild);
+    }
     const scores={
         score: highScore,
         name: name.value
     };
     console.log(scores);
-    highScores.push(scores);
+    if(secondsLeft === 0 || (questions.length < currentQuestionIndex +1)) {   // resetting the time if the time reaches 0 or the question list is completed. 
+        highScores.push(scores);
+      }
     console.log(highScores);
     highScores.sort((a,b) => b.score-a.score);
     highScores.splice(5);
     localStorage.setItem('highScores',JSON.stringify(highScores));
-    for (var player=highScores.length-1; player>=0; player--){
-        var newH2 = document.createElement("h2");
+    for (var player=0; player<=highScores.length-1; player++){
+        var newH2 = document.createElement("li");
         var h2Text = document.createTextNode(highScores[player].name+": "+highScores[player].score);
         newH2.append(h2Text);
         // newScoreList.innerText = highScores[player].name+": "+highScores[player].score; 
-        mainBody.insertBefore(newH2,mainBody.childNodes[2]);
+        // mainBody.insertBefore(newH2,mainBody.childNodes[2]);
+        newScoreList.appendChild(newH2);
     }
 }
 
 function clearHighscores(){
-    var choose = confirm('Clear highscores ?');
+    var choose = confirm('Clear highscores on page refresh ?');
     if(choose){
     highScores.length=0;
-    alert('Highscores cleared !');
+    localStorage.clear();
+    alert('Highscores list lost !');
     }
 }
