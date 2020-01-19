@@ -11,14 +11,16 @@ const enterName = document.getElementsByClassName('form-group');
 const nameButton = document.getElementById('name-btn');
 const clearButton = document.getElementById('clear-btn');
 const name = document.getElementById('name');
-
+// const newScoreList = document.getElementById('scoreList');
+const highScoresButton = document.getElementById('highscores')
 
 let shuffledQuestion, currentQuestionIndex, flag, qNumber; 
 
 startButton.addEventListener('click', startQuiz);
-nameButton.addEventListener('click', displayHighscores);
+nameButton.addEventListener('click', generateHighscores);
 name.addEventListener('keyup', () => {console.log(name.value)});
 clearButton.addEventListener('click', clearHighscores);
+highScoresButton.addEventListener('click', generateHighscores);
 
 var scoreCount, secondsLeft, score=0, timer, highScore;
 
@@ -31,9 +33,11 @@ function startQuiz(){
  enterName[0].classList.add('hide');
  nameButton.classList.add('hide');
  clearButton.classList.add('hide');
+//  newScoreList.classList.add('hide');
  shuffledQuestion = questions.sort(() => Math.random() - .5);
  currentQuestionIndex=0;
  answersElement.classList.remove('hide');//shows the answer choice
+ //mainBody.remove(mainBody.childNodes[1]);
  setTime();
  setNextQuestion();   
 }
@@ -119,6 +123,7 @@ function selectAnswer(event){
         statusElement.classList.remove('hide');
         lineElement.classList.remove('hide');
         statusElement.innerText = 'Wrong !';
+        secondsLeft-=5;
         if (scoreCount==0) scoreCount=0;
         else scoreCount-=5;
         //console.log(scoreCount);
@@ -151,12 +156,11 @@ function resetFormat(){
     enterName[0].classList.remove('hide');
     nameButton.classList.remove('hide');
     timer=secondsLeft;                                                //capture timer data
-    description.innerText = 'Your score is: '+score;
     console.log(timer);
     console.log(score);
     console.log(timer+score);                                         //capture high score
     highScore = timer+score;
-    
+    description.innerText = 'Your final score is: '+highScore;
     
     //displayHighscores(highScore);
     resetState();
@@ -164,11 +168,11 @@ function resetFormat(){
 
 
 
-// const mostRecentScore = localStorage.getItem('mostRecentScore');
+
 const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 console.log(highScores);
-// console.log(mostRecentScore);
-function displayHighscores(){
+
+function generateHighscores(){
     resetState();
     console.log('WIN !');
     questionElement.innerText = 'Highscores:';
@@ -176,7 +180,7 @@ function displayHighscores(){
     enterName[0].classList.add('hide');
     nameButton.classList.add('hide');
     clearButton.classList.remove('hide');
-
+    // newScoreList.classList.remove('hide');
     const scores={
         score: highScore,
         name: name.value
@@ -187,12 +191,13 @@ function displayHighscores(){
     highScores.sort((a,b) => b.score-a.score);
     highScores.splice(5);
     localStorage.setItem('highScores',JSON.stringify(highScores));
-    // for (var player=0; player<highScores.length; player++){
-    var newScoreList = document.createElement('h2');
-    var textnode = document.createTextNode("Water");  
-    newScoreList.append(textnode);
-    mainBody.insertBefore(newScoreList,mainBody.childNodes[2]);
-    // }
+    for (var player=highScores.length-1; player>=0; player--){
+        var newH2 = document.createElement("h2");
+        var h2Text = document.createTextNode(highScores[player].name+": "+highScores[player].score);
+        newH2.append(h2Text);
+        // newScoreList.innerText = highScores[player].name+": "+highScores[player].score; 
+        mainBody.insertBefore(newH2,mainBody.childNodes[2]);
+    }
 }
 
 function clearHighscores(){
