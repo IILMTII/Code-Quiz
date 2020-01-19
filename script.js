@@ -119,7 +119,6 @@ function selectAnswer(event){
         statusElement.classList.remove('hide');
         setTimeout(resetFormat, 1000);
     }
-    // setNextQuestion();
 }
 
 function resetFormat(){
